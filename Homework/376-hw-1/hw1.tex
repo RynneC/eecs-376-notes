@@ -1,0 +1,450 @@
+\documentclass[11pt,addpoints]{exam}
+\usepackage{fullpage}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage{array}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage[boxed]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{hyperref}
+
+% in order to compile this file you need to get 'header.tex' from
+% Canvas and change the line below to the appropriate file path
+\input{header}
+
+\newcommand{\hwnum}{1}
+\newcommand{\duedate}{May 16}
+\usepackage{xcolor}
+
+% remove "draft" to turn off fixme notes
+\usepackage[draft,multiuser,inline,nomargin]{fixme}
+% fixme notes: register commands for author(s)
+\FXRegisterAuthor{a}{ea}{\color{red}Ali}
+% add more HW authors here...
+\FXRegisterAuthor{j}{ej}{\color{blue}Junghwan}
+\FXRegisterAuthor{e}{ee}{\color{brown}Eric}
+\fxusetheme{color}
+
+\hwheader   % header for homework
+% \hwslnheader   % header for homework solutions
+
+% Comment the following line in order to hide solutions.
+% Uncomment the line to show solutions written inside of
+% LaTeX solution environments like:
+%   \begin{solution}
+%     My solution.
+%   \end{solution}.
+\printanswers
+
+\begin{document}
+
+\listoffixmes
+
+\hwpreface
+
+\pointsinmargin
+\pointpoints{pt}{pts}
+\bonuspointpoints{EC pt}{EC pts}
+\marginpointname{ \points}
+\marginbonuspointname{ \bonuspoints}
+
+\begin{questions}
+
+  \addtocounter{question}{-1}
+  \question[0] \textbf{Before you start; before you submit.}
+  
+  \begin{parts}
+    \part Carefully read \href{https://drive.google.com/file/d/1Q6E2B2hljH28vv7L1LZOugiJol-t1khq/view?usp=drive_link}{Handout 1} before starting this assignment, and apply it to the solutions you submit.
+    
+    \part If applicable, state the name(s) and uniqname(s) of your collaborator(s).
+
+    \begin{solution}
+    None.
+       
+    \end{solution}
+  \end{parts}
+
+  \question \textbf{Practice with asymptotics (``big-Oh, big-Omega, big-Theta'').}
+  
+  For the following pairs of functions, state with justification whether or not each of the following hold: $f(n) = O(g(n))$, $f(n) = \Omega(g(n))$, $f(n) = \Theta(g(n))$.
+
+  You can find the definitions of asymptotic notations ($O, \Omega, \Theta$) in \href{https://drive.google.com/file/d/1F_6pnQxpaYiqpnue5pKDSYVMItf3PG-T/view?usp=drive_link}{Handout 0}.
+
+  \begin{parts}
+    \part[5] $f(n) = n^3 + 2n + 8$, $g(n) = 4n^3$.
+    
+    \begin{solution}
+    \\
+    1. $f(n) = O(g(n))$.
+    \\Consider $c = 1$ and $n_0 = 2$, then $cg(n) -f(n)= n(3n^2-2) - 8.$ When $n=n_0$,   $cg(n) -f(n)= 20 - 8 = 12.$ Since $cg(n) -f(n)$ increases as $n$ grows when $3n^2-2 > 0$, $f(n) \leq cg(n)$ when $n \geq n_0$. Therefore $f(n) = O(g(n))$. \\ 
+    \\2. $f(n) = \Omega(g(n))$.
+    \\Consider $c = {1\over 4}$ and $n_0 = 1$, then $f(n) - cg(n)= n^3 + 2n + 8 - n^3 = 2n + 8.$ When $n >= 1$, $f(n) - cg(n)>0$, $f(n) > cg(n)$. Therefore $f(n) = \Omega(g(n))$\\
+    \\3. $f(n) = \Theta(g(n))$.
+    \\Since $f(n) = O(g(n))$ and $f(n) = \Omega(g(n))$, $f(n) = \Theta(g(n))$ by definition.
+    \end{solution}
+    
+    \part[5] $f(n) = (2 + (-1)^n) n^2 + 1$, $g(n) = n^2$.
+    
+    \begin{solution}
+    \\  1. $f(n) = O(g(n))$.
+    \\Consider $c = 4$ and $n_0 = 1$, \(f(x) -cg(x) = (-1)^n n^2 - 2n^2 + 1 \leq -n^2 + 1\). So when $n \geq 1$, $-n^2 +1 \leq 0$, $f(n) \leq cg(n)$. Therefore $f(n) = O(g(n))$.
+    \\\\2. $f(n) = \Omega(g(n))$.
+    \\Consider $c = 1$ and $n_0 = 1$, \(f(x) -cg(x) = (-1)^n n^2 + n^2 + 1 \geq 1\). So $f(n) \geq cg(n)$. Therefore $f(n) = \Omega(g(n))$.
+    \\\\3. $f(n) = \Theta(g(n))$.
+    \\Since $f(n) = O(g(n))$ and $f(n) = \Omega(g(n))$, $f(n) = \Theta(g(n))$ by definition.
+    \end{solution}
+
+    \part[5] $f(n) = \log_{2}(n^{10})$, $g(n) = \log_{10}(n^{2})$.
+
+    \begin{solution}
+    \(f(x) = 10\log_2(n)\),
+    \(g(x) = 2\log_{10}(n) = 2\frac{\log_2(n)}{\log_2(10)} = \frac{2}{\log_2(10)}\log_2(n)\)
+    \\Therefore $f(n) = \Omega(g(n))$, $f(n) = O(g(n))$ and $f(n) = \Theta(g(n))$ since we can choose $c = 5\log_2(10)$ to let $f(x) = cg(x)$.
+    \end{solution}
+
+    \part[5] $f(n) = 2^{10n}$, $g(n) = n^{10} \cdot 10^{2n}$.
+
+    \begin{solution}
+    \(f(x) = 2^{10n} = (2^{10})^n = 1024^n\),  \(g(x) = n^{10} \cdot 10^{2n} = n^{10} \cdot (10^2)^n = n^{10} \cdot 100^n\).\\
+    $$
+    \lim_{n \to \infty} \frac{g(n)}{f(n)} = 
+    \lim_{n \to \infty} \frac{n^{10} \cdot 100^n}{1024^n} = 
+    \lim_{n \to \infty} (\frac{25}{256})^n \cdot n^{10} =
+    \lim_{n \to \infty} \frac{n^{10}}{(\frac{256}{25})^n} = 0
+    $$ by the L'Hôpital's Rule. 
+    \\Therefore $f(n) \not= O(g(n))$, $f(n) = \Omega(g(n))$.
+    \\ And $f(n) \not= \Theta(g(n))$ since not both expressions are true.
+    \end{solution}
+
+  \end{parts}
+
+  \question[5] \textbf{Comparing asymptotic running times.}
+
+  Suppose that Algorithm X has running time $T_{X}(n) = \Theta(n)$, Algorithm Y has running time $T_{Y}(n) = \Theta(n^2)$, and Algorithm Z has running time $T_{Z}(n) = O(n^{2} \log n)$.
+
+  As usual, all running times are stated in terms of the \emph{worst case} for inputs of size~$n$.
+  That is, $T_{X}(n)$ is the \emph{maximum} number of steps for which X runs, taken over all inputs of size~$n$ (and similarly for $T_{Y}, T_{Z}$).
+  Choose all claims that are necessarily true.
+
+\checkboxchar{\raisebox{-.2em}{\Large$\square$}}
+\checkedchar{\raisebox{-.2em}{\Large$\blacksquare$}}
+  \begin{checkboxes}
+    \choice On every input, X runs faster than Y.
+
+    \choice For all large enough $n$, X runs faster than Y on every input of size $n$.
+
+    \CorrectChoice For all large enough $n$, there is an input of size $n$ for which X runs faster than Y.
+
+    \CorrectChoice For all large enough $n$, there is an input of size $n$ for which Y runs faster than Z.
+  \end{checkboxes}
+
+
+  \question \textbf{EECS 376 lover.}
+
+  Consider the following algorithm:
+
+\begin{minipage}{\linewidth}
+\begin{algorithm}[H]
+      \begin{algorithmic}[1]
+        \Function{\text{EECS376Lover}}{$n, k$} \Comment{$n$ is a positive integer, and $k \in \set{1, 2, \ldots, n}$}
+        \For{$i = 1, 2, \dots, k$}
+            \For{$j = 1, 2, \dots, n-k$}            
+            \State {\Call{Print}{\texttt{"I love EECS 376!"}}}
+            \EndFor
+        \EndFor
+        \EndFunction
+      \end{algorithmic}
+\end{algorithm}
+\end{minipage}
+
+\begin{parts}
+    \part[1] Identify the value of $k$ that induces the \textbf{most} \texttt{"I love EECS 376!"} printed by the algorithm. 
+
+    \part[2] Based on your answer in (a), give the \textbf{tightest correct asymptotic} (big-$O$) bound, as a function of~$n$, on the number of \texttt{"I love EECS 376!"} printed by the algorithm. 
+
+    \part[2] Is the algorithm \emph{efficient}, i.e., runs in at most polynomial time with respect to the input size? Briefly explain your answer.
+\end{parts}
+
+\begin{solution}
+  \begin{parts}
+    \part 
+    Fix $n$, for any $1 \leq k \leq n$, the number of \texttt{"I love EECS 376!"} printed by the algorithm is $k(n-k)$ = $-(k-{n\over 2})^2 + {n^2 \over 4}$.\\
+    Therefore the maximum is reached when $k$ is closest to ${n\over 2}$.\\
+    So the value of $k$ that induces the most \texttt{"I love EECS 376!"} printed by the algorithm is $k = \lfloor {n\over 2} \rfloor$ and $k = \lceil {n\over 2} \rceil$. (If $n$ is even, it is just $n\over 2$; if $n$ is odd, then it is ${n\pm 1}\over 2$)
+    
+    \part 
+    Based on the answer in (a), the tightest correct asymptotic bound is $O({{n^2}})$ since the number of \texttt{"I love EECS 376!"} printed = $k(n-k)$ = $-(k-{n\over 2})^2 + {n^2 \over 4} \leq {n^2 \over 4}$
+    
+    \part 
+    The algorithm is efficient since ts running time is within $O(n^2)$, which is polynomial time with respect to the input size.
+\end{parts}
+\end{solution}
+
+  \question[10] \textbf{Power of induction.}
+
+  Consider the following algorithm to compute $a^b$, where $a$ and $b$ are some integers. 
+
+\begin{minipage}{\linewidth}
+\begin{algorithm}[H]
+      \begin{algorithmic}[1]
+        \Function{\text{Pow}}{$a, b$}
+        \If{$b=0$}
+            \State \Return 1
+        \EndIf
+        \If{$b$ is even}
+            \State \Return $(\Call{Pow}{a, b/2})^2$
+        \Else{
+            \State \Return $a\cdot (\Call{Pow}{a, (b-1)/2})^2$
+        }
+        \EndIf
+        \EndFunction
+      \end{algorithmic}
+\end{algorithm}
+\end{minipage}
+
+Prove that the algorithm is correct by induction. 
+\begin{solution}
+Proof:
+\\Let $a,b$ be an arbitrary integer($b$ is positive). \\
+We prove the correctness of the algorithm by induction on $b$.\\
+\textbf{Base case}: $b=0$. The algorithm returns 1 $= a^0$, which is correct.\\\\
+\textbf{Inductive step}: Assume that the algorithm is correct for all $b \leq k$, where $k \geq 0$. \\Now we show that the algorithm is correct for $b = k+1$.\\
+There are only two cases to consider:
+\\Case 1: $k+1$ is even, i.e. $k+1 = 2m$ for some integer $m$.\\
+Then 
+the algorithm returns $(\Call{Pow}{a, (k+1)/2})^2 = (\Call{Pow}{a, m})^2 = a^m \cdot a^m = a^{2m} = a^{k+1}$, which is correct.\\
+\\Case 2: $k+1$ is odd, i.e. $k+1 = 2m+1$ for some integer $m$. So $k = 2m$.\\
+Then
+the algorithm returns $a\cdot (\Call{Pow}{a, (k+1-1)/2})^2 = a\cdot (\Call{Pow}{a, 2m/2})^2 = a\cdot (\Call{Pow}{a, m})^2 = a\cdot a^m \cdot a^m = a^{2m+1} = a^{k+1}$, which is correct.\\
+Since Both cases are correct, we have proved the induction step.\\
+
+Therefore, by induction, the algorithm is correct for all $b \geq 0$.
+\end{solution}
+
+
+  \question \textbf{Pigeons and the Contra-.}
+  
+  Recall the Pigeonhole Principle, which states ``If $n$ pigeons are placed into $m$ pigeonholes, where $n>m$, then at least one pigeonhole contains more than one pigeon." 
+  
+  Prove the Pigeonhole Principle using
+
+    \begin{parts}
+  \part[5] proof by contradiction, and
+
+  \part[5] proof by contrapositive.
+
+  \end{parts}
+
+  \begin{solution}
+  \begin{parts}
+  \part Proof by contradiction:\\
+  Suppose for sake of contradiction that $n$ pigeons are placed into $m$ pigeonholes, 
+  (where $n>m$) with no pigeonhole contains more than one pigeon.\\
+  Then each pigeonhole contains at most one pigeon.\\
+  Since there are $m$ pigeonholes, there can at most be $m$ pigeons, so the total number of pigeons $n \leq m$, which contradicts the assumption that $n>m$. 
+  \\Therefore the Pigeonhole Principle is true.\\
+  \part Proof by contrapositive:
+  \\The contrapositive of the statement is: For the $n$ pigeons placed into $m$ pigeonholes, if no pigeonhole contains more than one pigeon, then $n \leq m$.\\
+  Suppose that $n>m$. Then there are more pigeons than pigeonholes.\\
+  Since no pigeonhole contains more than one pigeon, the number of pigeons in every hole is less or equal to 1.\\
+  Since there are $m$ holes, the total number of pigeons $n \leq m$.\\
+  Then we have proved the contrapositive of the statement. So the Pigeonhole Principle is true.\\
+
+  \end{parts}
+  \end{solution}
+
+\question[15] \textbf{Potential method.}
+
+Alice is playing a \texttt{FactorFinding} game with herself. The integer factorization is not exciting enough so she decides to consider another number system.
+
+    Alice thinks about the ``complex integers'', i.e.~$a+bi$ where $a,b$ are integers and $i^2=-1$. For example, 
+    \begin{itemize}
+        \item addition: $(1+2i)+(3+4i)=4+6i$;
+        \item multiplication: $(1+2i)(3+4i)=3-8+(6+4)i=-5+10i$
+    \end{itemize}
+    She then plays the game as follows.
+     Alice starts with an arbitrary ``complex integer'' $a_1+b_1 i$ and $k=1$. Alice tries to find  $a_{k+1}+b_{k+1} i$ that divides $a_k+b_k i$ which means there exist two integers $c$ and $d$ such that $(a_{k+1}+b_{k+1}i)(c+di)=a_k+b_ki$.  If $|c|+|d|\leq1$, then the game terminates. Otherwise, she increments $k$ and repeats this step. 
+
+     Note: The initial complex number $a_1 + b_1i \neq 0$; that is, at least one of $a_i$ and $b_i$ must be non-zero.
+
+     
+    Question: Can Alice continue the game forever? If yes, give an example infinite run. If not, prove it by the potential-function method.
+
+    \textbf{Hint:} Try the potential function $\Phi(a+bi)=a^2+b^2$.
+    
+    \begin{solution}
+    Alice cannot continue the game forever.\\
+    Using the potential function $\Phi(a+bi)=a^2+b^2$, we can prove that the game will terminate.\\
+    \\First we claim that: for all complex number $x = a_1+b_1i, y= a_2+b_2i, z=a_3+b_3i$, if $xy = z$, then $|x| \cdot |y| = |z|$.\\
+    Proof: $|x| \cdot |y| = \sqrt{a_1^2+b_1^2} \cdot \sqrt{a_2^2+b_2^2} = \sqrt{(a_1^2+b_1^2)(a_2^2+b_2^2)} = \sqrt{a_1^2a_2^2 + b_1^2b_2^2 + a_1^2b_2^2 + a_2^2b_1^2} \\= \sqrt{(a_1a_2-b_1b_2)^2+(a_1b_2+a_2b_1)^2} = \sqrt{a_3^2 + b_3^2} = |z|$\\
+
+    Then let $a_k+b_ki$ be the complex number at the $k$-th step, and let $c+di$ be the next possible factor.\\
+    Case 1: $|c|+|d|\leq1$. Then the game terminates at $k+1$-th step.\\
+    Case 2: $|c|+|d| > 1$. Since $c, d$ are integers, $|c|+|d|\geq2$, so $|c| \geq 1$ and $|d| \geq 1$.\\
+    Then the norm of $c+di$ = $\sqrt{c^2+d^2} = \sqrt{|c|^2+|d|^2} \geq \sqrt{2}$, therefore $c^2 + d^2 \geq 2$.\\
+    So by our first claim, $\Phi(a_{k}+b_{k}i) = (c^2 +d^2) \cdot \Phi(a_{k+1} + b_{k+1}i) \geq 2 \Phi(a_{k+1} + b_{k+1}i)$.\\
+    \\
+    Then $\Phi(a_{k+1}+b_{k+1}i) \leq {1\over2} \Phi(a_k+b_ki)$ for any step $k$.\\
+    Suppose $\Phi(a_{1}+b_{1}i) = a$ for some arbitrary positive integer $a$. Then $\Phi(a_{k}+b_{k}i) \leq {1\over2^k} a$ for any step $k$. by the property of integer(real numbers), there must exist some $k_0\in \mathbb{Z}$ such that $2^{k_0} \leq a < 2^{k_0 + 1}$. So consider $k = k_0 + 1$, then we have $\Phi(a_{k}+b_{k}i) \leq 1$.\\
+    Therefore the game will terminate.
+
+    \end{solution}   
+
+  \question \textbf{Master theorem.}
+  
+  Consider the recurrence \[T(n) = \sqrt{n} \cdot T(\sqrt{n}) + O(n).\]
+    \begin{parts}
+    \part[5] Explain why the master theorem cannot be applied \emph{directly} to give a closed form for $T(n)$.
+
+    \begin{solution}
+    Because the master theorem requires $T(n) = aT({n\over b}) + O(n^d)$ where $a$ is a constant and the size of subproblems is divided linearly. But here the size of subproblems is divided by $\sqrt{n}$ and the coefficient of $T(\sqrt{n})$ is not a constant.
+    \end{solution}
+    
+    \part[5] Define $S(n) = T(n)/n$. Using substitution, write a recurrence for $S(n)$.
+    \begin{solution}
+    Since $T(n) = \sqrt{n} \cdot T(\sqrt{n}) + O(n)$ and $S(n) = {T(n)\over n} = {\sqrt{n} \cdot T(\sqrt{n}) + O(n)\over n} = {T(\sqrt{n})\over \sqrt{n}} + {O(n)\over n} = S(\sqrt{n}) + O(1)$.\\
+    So $S(n) = S(\sqrt{n}) + O(1)$.
+    \end{solution}
+    
+    \part[5] Let $n=2^m$ and define \(R(m) = S(2^m) = S(n)\). Using this substitution, write a recurrence for \(R(m)\).  
+    \textbf{Hint: } You may need to use that $\sqrt{n} = \sqrt{2^m} = 2^{m/2}$ 
+    
+    \begin{solution}
+     \(R(m) = S(2^m) = S(n)\) = \(S(\sqrt{n}) + O(1)\) = \(S(2^{m/2}) + O(1)\) = \(R(m/2) + O(1)\).
+     \\Therefore, \(R(m) = R(m/2) + O(1)\).
+    \end{solution}
+    
+    \part[5] Use the Master Theorem and the above recurrence to get an asymptotic expression for \(R(m)\), then use it to get asymptotic expressions for \(S(n)\) and finally \(T(n)\).
+    
+    \begin{solution}
+    For \(R(n) = R(n/2) + O(1)\), we have \(k = 1, b = 2, d = 1\). Since \(b^d = 2^1 = 2 > 1\), we have \(R(n) = O(n)\).
+    \\And then, since \(R(m) = S(2^n)\), we have \(S(n) = R(\log_2 n) = O(\log n)\) and \(T(n) = nS(n) = O(n\log n)\).
+    \end{solution}
+    \end{parts}
+
+\question[15] \textbf{Divide and conquer algorithm.}
+
+The matrix $H_t$ is a $n\times n$ matrix where $n=2^t$.
+It is defined recursively, where $H_0 = (1)$, and in general,
+\[
+H_{t+1} = \left(
+\begin{array}{rr}
+H_t  & H_t\\
+H_t  & - H_t
+\end{array}
+\right)
+\]
+For example,
+\[
+H_2 = \left(
+\begin{array}{rrrr}
+1 & 1 & 1 & 1 \\
+1 & -1& 1 & -1\\
+1 & 1 & -1 & -1\\
+1 & -1 & -1 & 1
+\end{array}
+\right)
+\]
+Given a vector $x \in \mathbb{Z}^{n}$, there is a trivial algorithm that uses $O(n^2)$ operations to compute the matrix-vector product $H_t x$, by first computing the matrix $H_t$ and then computing its product with $x$.
+Describe an algorithm that computes $H_t x$ in $O(n \cdot t)=O(n\log n)$ operations.
+
+\textbf{Note: } Recall how matrix vector multiplication works. If we have a $n\times n$ matrix $A$ and a vector $x\in \mathbb{Z}^n$, their product is calculated by taking the dot product of $x$ with each row in $A$. (That is, if the row is $[a_1, a_2, ..., a_n]$ and $x = \begin{bmatrix}
+       x_1 \\
+       x_2 \\
+       \vdots \\
+       x_n
+       \end{bmatrix}$, then the dot product is $a_1x_1 + a_2x_2 + ... + a_nx_n$). For example, here we have a $2\times 2$ matrix $A$ and a vector $x\in \mathbb{Z}^2$.
+\begin{equation*}
+       A x = 
+       \begin{bmatrix}
+       a & b \\
+       c & d
+       \end{bmatrix}
+       \begin{bmatrix}
+       x_1 \\
+       x_2
+       \end{bmatrix}
+       = 
+       \begin{bmatrix}
+       ax_1 + bx_2 \\
+       cx_1 + dx_2
+       \end{bmatrix}
+   \end{equation*}
+
+   Moreover, instead of multiplying each individual row and column, we can also multiply matrices in blocks. For example, if we have a $4\times 4$ matrix $A$ and a vector $x\in \mathbb{Z}^4$, we can break $A$ into 4 smaller matrices, say $2\times2$ matrices $H, I, J, K$. We can also break $x$ into 2 vectors $\vec{x}_1$ and $\vec{x}_2$ each of size 2. This would give the following formulation of the product $Ax$.
+    \begin{equation*}
+       A x = 
+       \begin{bmatrix}
+       H & I \\
+       J & K
+       \end{bmatrix}
+       \begin{bmatrix}
+       \vec{x}_1 \\
+       \vec{x}_2
+       \end{bmatrix}
+       = 
+       \begin{bmatrix}
+       H\vec{x}_1 + I\vec{x}_2 \\
+       J\vec{x}_1 + K\vec{x}_2
+       \end{bmatrix}.
+   \end{equation*}
+
+\begin{solution}
+\begin{algorithm}[H]
+Input: int $n$ and vector $\vec{x} \in \mathbb{Z}^{n}$, where $n=2^t$ for some $t\in \mathbb{Z}_{\geq 0}$; \\
+Output: vector $\vec{y}\in \mathbb{Z}^{n}$
+      \begin{algorithmic}[1]
+        \Function{\text{lineartrans}}{$n, \vec{x}$}
+        \If{$n=1$}
+            \State \Return x
+        \Else{
+            \State $t = \log_2(n)$
+            \State $\vec{x}_1$ = $\vec{x}[0:{n\over 2}-1]$
+            \State $\vec{x}_2$ = $\vec{x}[{n\over 2}:n-1]$
+            \State $\vec{y}_1$ = \Call{lineartrans}{${n\over 2}, \vec{x}_1$}
+            \State $\vec{y}_2$ = \Call{lineartrans}{${n\over 2}, \vec{x}_2$}
+            \State $y[0:{n\over 2}-1] = \vec{y}_1+\vec{y}_2$
+            \State $y[{n\over 2}:n-1] = \vec{y}_1-\vec{y}_2$
+            \State \Return y
+        }
+        \EndIf
+        \EndFunction
+      \end{algorithmic}
+\end{algorithm}
+This algorithm computes $H_t x$ in $O(n\log n)$ operations. Slicing $\vec x$ into $\vec{x_1}, \vec{x_2}$ and concatenating $vec{y}$ by $vec{y_1}$ and $\vec{y_2}$ takes linear time (within $2n$), so the recurrence relation for the algorithm is $T(n) = 2T(n/2) + O(n)$, which is $O(n\log n)$ by the Master Theorem.
+\end{solution}
+
+   
+
+  \bonusquestion[10] \textbf{Extra credit:} \emph{You are not required to do this question to receive full credit on this assignment.}
+  To receive the bonus points, you must typeset this \textbf{entire} assignment in \LaTeX, and draw a table with two columns that includes the \emph{name} (e.g., ``fraction'') and an \emph{example} of each of the following:
+  \begin{itemize}
+  \item fraction (using \texttt{\textbackslash frac}),
+  \item less than or equal to,
+  \item union of two sets,
+  \item summation using Sigma ($\sum$) notation,
+  \item the set of real numbers ($\R$); write a mathematically correct statement that applies to \emph{all} real numbers $x\in \R$.
+  \end{itemize}
+  
+  \begin{solution}
+    \begin{tabular}{|c|c|}
+    \hline
+    \textbf{name} & \textbf{example} \\
+    \hline
+    fraction & $\frac{1}{3} = \frac{2}{6}$ \\
+    \hline
+    less than or equal to & $2ab \leq a^2 + b^2$\\
+    \hline
+    union of two sets & $\{1,2\} \bigcup \{3,4\} = \{1,2,3,4\}$ \\
+    \hline
+    summation & $\sum_{i=1}^{10} i= 55 $\\
+    \hline
+    the set of real numbers & $\mathbb{R}.$ $\forall a\in \mathbb{R}$, $a \in \mathbb{Q}$ or $a \in \mathbb{R} \backslash \mathbb{Q}$.\\
+    \hline
+  \end{tabular}
+  \end{solution} 
+\end{questions}
+
+\end{document}
